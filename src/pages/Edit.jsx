@@ -4,7 +4,7 @@ const Edit = () => {
 
   return (
     <div>
-      {params.id};
+      {params.id}수정하기;
     </div>
   )
 }
