@@ -10,14 +10,20 @@ import NotFound from './pages/NotFound';
 const mockData = [
   {
   Id : 1,
-  createdDate : new Date().getTime(),
+  createdDate : new Date("2025-02-24").getTime(),
   emotionId: 1,
   content: "기분 째짐"
   },
   {
     Id : 2,
-    createdDate : new Date().getTime(),
+    createdDate : new Date("2025-02-23").getTime(),
     emotionId: 2,
+    content: "기분 ㅂㄹ"
+  },
+  {
+    Id : 3,
+    createdDate : new Date("2024-01-23").getTime(),
+    emotionId: 3,
     content: "기분 ㅂㄹ"
   },
 ];
@@ -39,8 +45,8 @@ function reducer (state, action) {
     }
   }
 
-  const DiaryStateContext = createContext(); //상태 값을 제공하는 Context
-  const DiaryDispatchContext = createDispatchContext(); //상태를 변경하는 dispatch 함수를 제공하는 Context
+  export const DiaryStateContext = createContext(); //상태 값을 제공하는 Context
+  export const DiaryDispatchContext = createContext(); //상태를 변경하는 dispatch 함수를 제공하는 Context
 function App() {
   const [data, dispatch] = useReducer(reducer, mockData);
   const isRef = useRef(3);
@@ -78,7 +84,7 @@ function App() {
 
   return (
   <>
-    <DiaryStateContext.Provider value={date}>
+    <DiaryStateContext.Provider value={data}>
       <DiaryDispatchContext.Provider
         value={{
           onCreate,
