@@ -9,19 +9,19 @@ import NotFound from './pages/NotFound';
 
 const mockData = [
   {
-  Id : 1,
-  createdDate : new Date("2025-02-24").getTime(),
-  emotionId: 1,
-  content: "기분 째짐"
+    id : 1,
+    createdDate : new Date("2025-02-24").getTime(),
+    emotionId: 1,
+    content: "기분 째짐"
   },
   {
-    Id : 2,
+    id : 2,
     createdDate : new Date("2025-02-23").getTime(),
     emotionId: 2,
     content: "기분 ㅂㄹ"
   },
   {
-    Id : 3,
+    id : 3,
     createdDate : new Date("2024-01-23").getTime(),
     emotionId: 3,
     content: "기분 ㅂㄹ"
