@@ -1,28 +1,102 @@
 import './App.css'
+import { useReducer, useRef, createContext } from 'react';
 import { Routes, Route } from "react-router-dom"; 
-import Header from './components/Header';
 import Home from './pages/Home';
 import Diary from './pages/Diary';
+import Edit from './pages/Edit';
 import New from './pages/New';
 import NotFound from './pages/NotFound';
-import Button from './components/Button';
 
+const mockData = [
+  {
+  Id : 1,
+  createdDate : new Date().getTime(),
+  emotionId: 1,
+  content: "기분 째짐"
+  },
+  {
+    Id : 2,
+    createdDate : new Date().getTime(),
+    emotionId: 2,
+    content: "기분 ㅂㄹ"
+  },
+];
+
+function reducer (state, action) {
+  switch(action.type) {
+    case 'CREATE': 
+      return [action.data, ...state];
+    case 'UPDATE':
+      return state.map((item) =>
+        String(item.id) === String(action.data.id) 
+        ? action.id 
+        : item
+      );
+      case 'DELETE':
+        return state.filter((item) => String(item.id) === String(action.id));
+      default:
+        return state;
+    }
+  }
+
+  const DiaryStateContext = createContext(); //상태 값을 제공하는 Context
+  const DiaryDispatchContext = createDispatchContext(); //상태를 변경하는 dispatch 함수를 제공하는 Context
 function App() {
-  return (
-    <>
-    <Header 
-      title={"Header"}
-      leftChild={<Button text={"<"}/>}
-      rightChild={<Button text={">"}/>} />
+  const [data, dispatch] = useReducer(reducer, mockData);
+  const isRef = useRef(3);
+  //새로운 일기 추가
+  const onCreate = (createdDate, emotionId, content) => {
+    dispatch({
+      type: 'CREATE',
+      data: {
+        id : isRef.current++,
+        createdDate,
+        emotionId,
+        content,
+      },
+    });
+  };
 
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/new" element={<New />} />
-      <Route path="/diary/:id" element={<Diary />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+  const onUpdate = (id, createdDate, emotionId, content) => {
+    dispatch({
+      type: 'UPDATE',
+      data: {
+        id,
+        createdDate, 
+        emotionId, 
+        content
+      },
+    });
+  };
+  
+  const onDelete = (id) => {
+    dispatch({
+      type: 'DELETE',
+      data: id,
+    })
+  }
+
+  return (
+  <>
+    <DiaryStateContext.Provider value={date}>
+      <DiaryDispatchContext.Provider
+        value={{
+          onCreate,
+          onUpdate,
+          onDelete,
+        }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/new" element={<New />} />
+          <Route path="/diary/:id" element={<Diary />} />
+          <Route path="/edit/:id" element={<Edit />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </DiaryDispatchContext.Provider>
+    </DiaryStateContext.Provider>
   </>
+  
   )
 }
 
-export default App
+export default App;
