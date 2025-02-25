@@ -2,7 +2,7 @@ import './Editor.css';
 import EmotionItem from './EmotionItem';
 import Button from './Button';
 import { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 const EmotionList = [
   {
     emotionId: 1,
@@ -41,17 +41,16 @@ const getStringedDate = (targetDate) => {
 
   return `${year} ${month} ${day}`;
 };
-const Editor = () => {
+const Editor = ({onSubmit}) => {
   const [input, setInput] = useState({
     createdDate : new Date(),
     emotionId: 3,
     content: "",
   });
 
-  const onChangeInput = (e) => {
-    console.log(e.target.name);
-    console.log(e.target.value);
+  const navigate = useNavigate();
 
+  const onChangeInput = (e) => {
     let name = e.target.name;
     let value = e.target.value;
     
@@ -62,6 +61,10 @@ const Editor = () => {
       ...input,
       [name]: value,
     })
+  }
+
+  const onClickSubmitButton = () =>{
+    onSubmit(input);
   }
 
   return(
@@ -89,11 +92,20 @@ const Editor = () => {
       </section>
       <section className='content_section'>
         <h4>오늘의 일기</h4>
-        <textarea placeholder='오늘 하루는 어떠셨나요?' />
+        <textarea 
+          name='content'
+          value={input.content}
+          onChange={onChangeInput}
+          placeholder='오늘 하루는 어떠셨나요?' />
       </section>
       <section className='button_section'>
-        <Button text={"취소하기"}/>
-        <Button text={"작성완료"} type={"POSITIVE"}/>
+        <Button 
+        onClick={()=> navigate(-1)} text={"취소하기"}/>
+        <Button 
+          onClick={onClickSubmitButton}
+          text={"작성완료"} 
+          type={"POSITIVE"}
+          />
       </section>
     </div>
   )
