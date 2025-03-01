@@ -29,20 +29,32 @@ const mockData = [
 ];
 
 function reducer (state, action) {
+  let nextState;
+
   switch(action.type) {
-    case 'CREATE': 
-      return [action.data, ...state];
+    case 'CREATE':{
+      nextState = [action.data, ...state];
+      break;
+    }
     case 'UPDATE':
-      return state.map((item) =>
+      {nextState = state.map((item) =>
         String(item.id) === String(action.data.id) 
         ? action.id 
         : item
       );
+      break;
+    };
       case 'DELETE':
-        return state.filter((item) => String(item.id) === String(action.id));
+        {nextState = state.filter(
+          (item) => String(item.id) === String(action.id)
+          );
+          break;
+        }
       default:
         return state;
     }
+    localStorage.setItem("diary", JSON.stringify(nextState));
+    return nextState;
   }
 
   export const DiaryStateContext = createContext(); //상태 값을 제공하는 Context
@@ -50,6 +62,10 @@ function reducer (state, action) {
 function App() {
   const [data, dispatch] = useReducer(reducer, mockData);
   const isRef = useRef(3);
+
+  //localStorage.setItem('test', "hello"); //key, value
+  // console.log(localStorage.getItem('test'));
+
   //새로운 일기 추가
   const onCreate = (createdDate, emotionId, content) => {
     dispatch({
