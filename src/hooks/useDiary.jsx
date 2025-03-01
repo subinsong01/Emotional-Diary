@@ -5,7 +5,7 @@ import { DiaryStateContext } from "../App";
 const useDiary = (id) => {
   const data = useContext(DiaryStateContext);
   const [curDiaryItem, setCurDiaryItem] = useState();
-  const nav = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(()=>{
     const currentDiaryItem = data.find(
