@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { EmotionList } from '../util/constants';
 import { getStringedDate } from '../util/get-stringed-date';
 
-const Editor = ({onSubmit, initData }) => {
+const Editor = ({initData, onSubmit }) => {
   const [input, setInput] = useState({
     createdDate : new Date(),
     emotionId: 3,
@@ -14,14 +14,15 @@ const Editor = ({onSubmit, initData }) => {
   });
 
   const navigate = useNavigate();
-  useEffect(()=>{
-    if(initData){
+  useEffect(() => {
+    if (initData) {
       setInput({
         ...initData,
         createdDate: new Date(Number(initData.createdDate)),
       });
     }
   }, [initData]);
+  
   const onChangeInput = (e) => {
     let name = e.target.name;
     let value = e.target.value;

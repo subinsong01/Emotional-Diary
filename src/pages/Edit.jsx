@@ -3,20 +3,22 @@ import Button from '../components/Button';
 import Editor from '../components/Editor';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from'react-router-dom';
-import { useContext } from 'react';
+import { useContext} from 'react';
 import { DiaryDispatchContext } from '../App';
 import useDiary from '../hooks/useDiary';
+import usePageTitle from "../hooks/usePageTitle";
 const Edit = () => {
   const params = useParams();
   const navigate = useNavigate();
   const { onDelete, onUpdate } = useContext(DiaryDispatchContext); 
   const curDiaryItem = useDiary(params.id);
-
+  usePageTitle(`${params.id}번 일기 수정`)
+  
   const onClickDelete = () => {
-    if(window.confirm('일기를 정말 삭제할까요? 삭제된 일기는 복구가 불가능해요!')){
-      //일기 삭제 로직
+    console.log("삭제 버튼 클릭:", params.id);
+    if (window.confirm("일기를 정말 삭제할까요?")) {
       onDelete(params.id);
-      navigate("/", {replace: true});
+      navigate("/", { replace: true });
     }
   };
 
@@ -30,8 +32,8 @@ const Edit = () => {
       input.content
     );
     navigate("/", {replace: true});
+    }
   };
-  }
 
   return (
     <>
