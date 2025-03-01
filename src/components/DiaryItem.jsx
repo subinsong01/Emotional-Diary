@@ -28,7 +28,7 @@ const DiaryItem = ({id, emotionId, createdDate, content}) =>{
         </div>
       </div>
       <div className="button_section">
-        <Button  onClick={handleButtonClick} text={"수정하기"} />
+        <Button onClick={handleButtonClick} text={"수정하기"} />
       </div>
     </div>
   );
