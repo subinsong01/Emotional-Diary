@@ -1,15 +1,15 @@
 export const getStringedDate = (targetDate) => {
-  //날짜 -> YYYY-MM-DD
+  // yyyy-mm-dd
   let year = targetDate.getFullYear();
   let month = targetDate.getMonth() + 1;
-  let day = targetDate.getDate();
+  let date = targetDate.getDate();
 
-  if(month < 10){
+  if (month < 10) {
     month = `0${month}`;
   }
-  if(day < 10){
-    day = `0${day}`;
+  if (date < 10) {
+    date = `0${date}`;
   }
 
-  return `${year}-${month}-${day}`;
+  return `${year}-${month}-${date}`;
 };
